@@ -1,0 +1,114 @@
+extends ./layout.jade
+
+block content
+  .container
+    h1 Getting Started
+    ol
+      li
+        .row
+          .col-lg-4
+            h2 Configure Bicycle Server
+            p.
+              This defines two collections, "people" and "comments".
+              By adding the person id to the comments path, it makes it easy
+              to look up all the comments for a given person, but difficult to
+              look up all comments across the board.
+          .col-lg-8
+            dl
+              dt /bicycle.js
+              dd
+                :js
+                  var BicycleServer = require('bicycle-server');
+
+                  // passing a directory path automatically uses LevelUp
+                  var server = new BicycleServer(__dirname + '/data', {
+                    auth: function (user, token) {
+                      if (user === 'ForbesLindesay' && token === 'secret') {
+                        return { id: '4C6CC5B6' };
+                      }
+                    },
+                    // basic built in static server
+                    serve: {
+                      '/': __dirname + '/index.html',
+                      // browserify is automatically used to serve js
+                      '/index.js': __dirname + '/index.js'
+                    }
+                  }, {
+                    '/people/:id': {
+                      read: (user, params) => true,
+                      write: (user, params, update) => user && params.id === user.id
+                    },
+                    '/comments/:person/:id': {
+                      read: (user) => true,
+                      write: (user, params, update) => user && params.person === user.id
+                    }
+                  });
+
+                  server.listen(3000);
+      li
+        .row
+          .col-lg-4
+            h2 Connect Client
+            p It only takes one line of code to connect the client to the server database.
+
+          .col-lg-8
+            dl
+              dt /index.html
+              dd
+                :html
+                  <dl>
+                    <dt>Name</dt>
+                    <dd id="name"></dd>
+                  <ul id="comments"></ul>
+                  <script src="/index.js"></script>
+              dt /index.js
+              dd
+                :js
+                  var Bicycle = require('bicycle');
+                  var db = new Bicycle('/');
+      li
+        .row
+          .col-lg-4
+            h2 Authenticate
+            p.
+              Everything after this call will hapen in the context of the
+              newly authenticated user.
+          .col-lg-8
+            dl
+              dt /index.js
+              dd
+                :js
+                  db.auth('ForbesLindesay', 'secret');
+      li
+        .row
+          .col-lg-4
+            h2 Write some data
+            p The data consits of named collections of JSON objects.
+            p #[code :user.id] gets replaced with the id of the logged in user and #[code :uid] gets replaced with a generated unique id.
+          .col-lg-8
+            dl
+              dt /index.js
+              dd
+                :js
+                  db.set('/people/:user.id', {name: 'Forbes Lindesay'})
+                  db.set('/comments/:user.id/:uid', {
+                    message: 'BicycleJS is epic'
+                  });
+      li
+        .row
+          .col-lg-4
+            h2 Get data in real time
+            p BicycleJS gives you real time events when data changes.
+          .col-lg-8
+            dl
+              dt /index.js
+              dd
+                :js
+                  db.get('/people/:user.id').on('value', function (person) {
+                    document.getElementById('name').textContent = person.name;
+                  });
+                  db.list('/comments/:user.id').on('value', function (comments) {
+                    document.getElementById('comments').innerHTML = omments.map(function (c) {
+                      return '<li>' + c.message + '</ul>';
+                    }).join('');
+                  });

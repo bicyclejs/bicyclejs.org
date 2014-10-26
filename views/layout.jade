@@ -1,0 +1,96 @@
+doctype html
+html
+  head
+    title BicycleJS - Real Time &amp; Offline First
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css")
+    style.
+      /* Padding to allow for navbar */
+      body { padding-top: 70px; }
+
+      /* Style code samples */
+      span.cm-comment { color: #998; font-style: italic; }
+      span.cm-keyword, span.cm-atom { color: #333; font-weight: bold; }
+      span.cm-number { color: #099; }
+      span.cm-string { color: #d14; }
+      span.cm-meta { color: #999; font-weight: bold; }
+      span.cm-tag { color: #000080; font-weight: normal; }
+      span.cm-attribute { color: #008080; }
+
+      /* Style numbered lists */
+      ol > li h2 {
+        margin-top: 0;
+      }
+      ol {
+          counter-reset:li; /* Initiate a counter */
+          margin-left:0; /* Remove the default left margin */
+          padding-left:0; /* Remove the default left padding */
+          margin-top: 50px;
+      }
+      ol > li {
+          position:relative; /* Create a positioning context */
+          margin:0 0 6em 0; /* Give each list item a left margin to make room for the numbers */
+          padding:4px 0px; /* Add some spacing around the content */
+          list-style:none; /* Disable the normal item numbering */
+      }
+      ol > li:before {
+          content: counter(li); /* Use the counter as content */
+          counter-increment: li; /* Increment the counter by 1 */
+          /* Position and style the number */
+          position: absolute;
+          top: 5px;
+          left: -6em;
+          width: 3em;
+          height: 3em;
+          /* Some space between the number and the content in browsers that support
+             generated content but not positioning it (Camino 2 is one example) */
+          margin-right: 6em;
+          padding: 7px;
+          color: #b4b4b4;
+          border: 3px solid #b4b4b4;
+          font-weight: bold;
+          font-family:"Helvetica Neue", Arial, sans-serif;
+          text-align:center;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          border-radius: 50%;
+      }
+
+      /* Sidebar */
+      .sidebar-wrapper {
+        margin-top: -20px;
+        padding-left: 200px;
+      }
+
+      .sidebar-sidebar {
+        margin-left: -200px;
+        left: 200px;
+        width: 200px;
+        background: #f8f8f8;
+        border-right: 1px solid rgb(231, 231, 231);
+        position: fixed;
+        height: 100%;
+        overflow-y: auto;
+        z-index: 1000;
+        padding: 1em;
+      }
+
+      .sidebar-content {
+        width: 100%;
+        padding: 1em;
+      }
+  body
+    nav.navbar.navbar-default.navbar-fixed-top(role="navigation")
+      .container
+        .navbar-header
+          a.navbar-brand(href='/') BicycleJS
+        ul.nav.navbar-nav
+          mixin navbar-link(href, name)
+            li(class=currentUrl.substr(0, href.length) === href && (href !== '/' || currentUrl === href) && 'active')
+              a(href=href)= name.toUpperCase()
+          +navbar-link('/', 'Overview')
+          +navbar-link('/getting-started', 'Getting Started')
+          // +navbar-link('/docs', 'Docs')
+    .container: .alert.alert-danger(role="alert").
+      #[strong N.B.] None of this has been implemented yet, this is just here
+      to give you an idea of what I'm trying to build.
+    block content

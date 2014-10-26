@@ -1,0 +1,28 @@
+{
+  "name": "bicyclejs.org",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The bicyclejs.org website",
+  "keywords": [],
+  "dependencies": {
+    "express": "^4.9.8",
+    "highlight-codemirror": "^4.6.1",
+    "jade": "^1.7.0",
+    "mandate": "^1.0.1"
+  },
+  "devDependencies": {
+    "rimraf": "^2.2.8",
+    "stop": "^3.0.0-rc1"
+  },
+  "scripts": {
+    "prerelease": "rimraf out",
+    "release": "node stop && mandate",
+    "postrelease": "rimraf out"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ForbesLindesay/bicyclejs.org.git"
+  },
+  "author": "ForbesLindesay",
+  "license": "MIT"
+}

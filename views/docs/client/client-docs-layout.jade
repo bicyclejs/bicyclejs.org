@@ -1,0 +1,34 @@
+extends ../../layout.jade
+
+block content
+  .sidebar-wrapper
+    .sidebar-sidebar
+      ul.nav.nav-pills.nav-stacked
+        mixin doc-link(id, name)
+          - var href = '/docs/' + id;
+          li(class=currentUrl.substr(0, href.length) === href && 'active')
+            a(href=href)= name
+        li Bicycle Methods
+        +doc-link('client/constructor', 'new Bicycle(url)')
+        +doc-link('client/auth', 'auth(token)')
+        +doc-link('client/unauth', 'unauth()')
+        +doc-link('client/go-online', 'goOnline()')
+        +doc-link('client/go-offline', 'goOffline()')
+        +doc-link('client/child', 'child(name)')
+        +doc-link('client/set', 'set(value)')
+        +doc-link('client/get', 'get()')
+        +doc-link('client/update', 'update(value)')
+        +doc-link('client/remove', 'remove()')
+        +doc-link('client/push', 'push(object)')
+        +doc-link('client/on', 'on(name, fn)')
+        +doc-link('client/off', 'off(name, fn)')
+        +doc-link('client/once', 'once(name[, fn])')
+        li Snapshot Methods
+        +doc-link('client/snapshot/val', 'val()')
+        +doc-link('client/snapshot/child', 'child(name)')
+        +doc-link('client/snapshot/for-each', 'forEach(fn)')
+        +doc-link('client/snapshot/name', 'name()')
+        +doc-link('client/snapshot/count-children', 'countChildren()')
+        +doc-link('client/snapshot/ref', 'ref()')
+    .sidebar-content
+      block docs
